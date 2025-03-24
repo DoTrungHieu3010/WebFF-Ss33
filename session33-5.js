@@ -45,19 +45,34 @@ const products = [
 
 let addProduct = document.getElementById('products');
 let add = '';
-function renderProduct(n) {
-    add += `
-      <div class='product'>
-        <div class='img'>
-          <img src='${n.image}' alt='${n.name}' />
-        </div>
-        <div class='titleProduct'>${n.name}</div>
-        <div class='describe'>${n.description}</div>
-        <div class='price'>${n.price.toLocaleString()} VNĐ</div>
-        <button class='buy'>Buy</button>
-      </div>
-    `;
-}
+let input = document.getElementById("inputSearch")
+search.addEventListener("click", function () {
+    function filterProduct(n) {
+        return n.name.toLowerCase().includes(inputSearch.value.toLowerCase());
+    }
 
-products.forEach(renderProduct);
-addProduct.innerHTML = add;
+    let productSearch = products.filter(filterProduct);
+    let add = "";
+
+    if (productSearch.length === 0) {
+        add = "";
+    } else {
+        function renderProduct(n) {
+            add += `
+          <div class="product">
+            <div class="img">
+              <img src="${n.image}" alt="${n.name}" />
+            </div>
+            <div class="titleProduct">${n.name}</div>
+            <div class="describe">${n.description}</div>
+            <div class="price">${n.price.toLocaleString()} VNĐ</div>
+            <button class="buy">Buy</button>
+          </div>
+        `;
+        }
+
+        productSearch.forEach(renderProduct);
+    }
+
+    addProduct.innerHTML = add;
+});
